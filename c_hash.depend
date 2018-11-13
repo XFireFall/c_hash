@@ -1,0 +1,106 @@
+# depslib dependency file v1.0
+1540929193 source:/home/oleg/code_blocks_projects/c_CPU/lib/asm_language.c
+	"asm_language.h"
+	"asm_commands.h"
+
+1540928296 /home/oleg/code_blocks_projects/c_CPU/lib/asm_language.h
+	<stdio.h>
+	"../lib/constants.h"
+	"asm_commands.h"
+
+1542118301 /home/oleg/code_blocks_projects/c_CPU/lib/constants.h
+
+1540927999 /home/oleg/code_blocks_projects/c_CPU/lib/asm_commands.h
+
+1540396269 source:/home/oleg/code_blocks_projects/c_CPU/lib/stack.c
+	"stack.h"
+
+1540495135 /home/oleg/code_blocks_projects/c_CPU/lib/stack.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<assert.h>
+
+1541881568 source:/home/oleg/code_blocks_projects/c_CPU/lib/strings_int.c
+	"strings_int.h"
+
+1539289522 /home/oleg/code_blocks_projects/c_CPU/lib/strings_int.h
+	<stdio.h>
+	<stdlib.h>
+	<sys/stat.h>
+	<assert.h>
+	<ctype.h>
+
+1542133702 source:/home/oleg/code_blocks_projects/c_hash/main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"lib/hash_table.h"
+
+1542098428 source:/home/oleg/code_blocks_projects/c_str_list/list_array.c
+	"list_array.h"
+
+1542117324 /home/oleg/code_blocks_projects/c_str_list/list_array.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"../c_CPU/lib/constants.h"
+
+1542118044 source:/home/oleg/code_blocks_projects/c_onegin/strings_int.c
+	"strings_int.h"
+
+1542118477 /home/oleg/code_blocks_projects/c_onegin/strings_int.h
+	<stdio.h>
+	<stdlib.h>
+	<sys/stat.h>
+	<assert.h>
+	<ctype.h>
+
+1542125157 source:/home/oleg/code_blocks_projects/c_str_int_list/list_array.c
+	"list_array.h"
+
+1542124889 /home/oleg/code_blocks_projects/c_str_int_list/list_array.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"../c_CPU/lib/constants.h"
+	"../c_onegin/strings_int.h"
+
+1542128507 /home/oleg/code_blocks_projects/c_hash/hash_table.h
+	"lib/strings_int.h"
+	"lib/constants.h"
+	"lib/list_ASI.h"
+
+1542126187 source:/home/oleg/code_blocks_projects/c_hash/hash_table.c
+	"hash_table.h"
+
+1542118477 /home/oleg/code_blocks_projects/c_hash/lib/strings_int.h
+	<stdio.h>
+	<stdlib.h>
+	<sys/stat.h>
+	<assert.h>
+	<ctype.h>
+
+1542128425 /home/oleg/code_blocks_projects/c_hash/lib/constants.h
+
+1542132314 /home/oleg/code_blocks_projects/c_hash/lib/list_ASI.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"constants.h"
+	"strings_int.h"
+
+1542132241 source:/home/oleg/code_blocks_projects/c_hash/lib/list_ASI.c
+	"list_ASI.h"
+
+1542118044 source:/home/oleg/code_blocks_projects/c_hash/lib/strings_int.c
+	"strings_int.h"
+
+1542132469 source:/home/oleg/code_blocks_projects/c_hash/lib/hash_table.c
+	"hash_table.h"
+
+1542132450 /home/oleg/code_blocks_projects/c_hash/lib/hash_table.h
+	"strings_int.h"
+	"constants.h"
+	"list_ASI.h"
+
