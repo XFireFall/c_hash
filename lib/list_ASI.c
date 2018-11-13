@@ -37,6 +37,7 @@ int expand_data(struct List_ASI* this)
 
 //*****************************************************************
 
+//==========================__OK__==============================
 int List_ASI_OK(struct List_ASI* this)
 {
     assert(this != NULL);
@@ -59,7 +60,7 @@ int List_ASI_OK(struct List_ASI* this)
 
     for(int i = 1; i < this->capacity; ++i)
     {
-        if(*this->data[i].name != POISON && (this->data[i].prev < 0 || this->data[i].prev > this->size || this->data[i].next < 0 || this->data[i].prev > this->size))
+        if(*this->data[i].name != POISON && (this->data[i].prev == this->data[i].next || this->data[i].prev < 0 || this->data[i].prev > this->size || this->data[i].next < 0 || this->data[i].prev > this->size))
             return ERR_INDEX;
 
         if(this->data[i].prev != POISON && *this->data[i].name == POISON)
@@ -69,6 +70,7 @@ int List_ASI_OK(struct List_ASI* this)
     return OK;
 }
 
+//==========================__DUMP_FILE__=======================
 int List_ASI_dump_file(struct List_ASI* this)
 {
     assert(this != NULL);
@@ -176,6 +178,7 @@ int List_ASI_dump_file(struct List_ASI* this)
     return error;
 }
 
+//==========================__DUMP_CONS__=======================
 int List_ASI_dump(struct List_ASI* this)
 {
     assert(this != NULL);
@@ -287,6 +290,7 @@ int List_ASI_dump(struct List_ASI* this)
     return error;
 }
 
+//==========================__MAKEGRAPH__=======================
 int List_ASI_makegraph(struct List_ASI* this)
 {
     assert(this != NULL);
@@ -367,6 +371,7 @@ int List_ASI_makegraph(struct List_ASI* this)
 
 //*****************************************************************
 
+//==========================__REMOVE__==========================
 int List_ASI_remove(struct List_ASI* this, int idx)
 {
     assert(this != NULL);
@@ -418,6 +423,7 @@ int List_ASI_remove(struct List_ASI* this, int idx)
     return List_ASI_OK(this);
 }
 
+//==========================__POP__=============================
 int List_ASI_pop(struct List_ASI* this)
 {
     return List_ASI_remove(this, this->tail);
@@ -425,7 +431,8 @@ int List_ASI_pop(struct List_ASI* this)
 
 //*****************************************************************
 
-int List_ASI_add_before(struct List_ASI* this, int idx, int* new_name)
+//==========================__ADD_BEFORE__======================
+int List_ASI_add_before(struct List_ASI* this, int* new_name, int idx)
 {
     assert(this != NULL);
     assert(new_name != NULL);
@@ -477,7 +484,8 @@ int List_ASI_add_before(struct List_ASI* this, int idx, int* new_name)
     return List_ASI_OK(this);
 }
 
-int List_ASI_add_after(struct List_ASI* this, int idx, int* new_name)
+//==========================__ADD_AFTER__=======================
+int List_ASI_add_after(struct List_ASI* this, int* new_name, int idx)
 {
     assert(this != NULL);
     assert(new_name != NULL);
@@ -492,7 +500,7 @@ int List_ASI_add_after(struct List_ASI* this, int idx, int* new_name)
     }
 
     if(idx == 0)
-        return List_ASI_add_before(this, 0, new_name);
+        return List_ASI_add_before(this, new_name, 0);
 
     if(!this->free)
         expand_data(this);
@@ -524,11 +532,13 @@ int List_ASI_add_after(struct List_ASI* this, int idx, int* new_name)
     return List_ASI_OK(this);
 }
 
+//==========================__PUSH__============================
 int List_ASI_push(struct List_ASI* this, int* new_name)
 {
-    return List_ASI_add_after(this, (this->size != 0) ? this->tail : 0, new_name);
+    return List_ASI_add_after(this, new_name, (this->size != 0) ? this->tail : 0);
 }
 
+//==========================__ADD_SORTED__======================
 int List_ASI_add_sorted(struct List_ASI* this, int* new_name)
 {
     assert(this != NULL);
@@ -543,7 +553,7 @@ int List_ASI_add_sorted(struct List_ASI* this, int* new_name)
             break;
 
     if(i != 0)
-        List_ASI_add_before(this, i, new_name);
+        List_ASI_add_before(this, new_name, i);
     else
         List_ASI_push(this, new_name);
 
@@ -552,6 +562,7 @@ int List_ASI_add_sorted(struct List_ASI* this, int* new_name)
 
 //*****************************************************************
 
+//==========================__CONSTRUCTOR__=====================
 void List_ASI_constructor(struct List_ASI* this, int number)
 {
     assert(this != NULL);
@@ -574,6 +585,7 @@ void List_ASI_constructor(struct List_ASI* this, int number)
     return;
 }
 
+//==========================__DESTRUCTOR__======================
 void List_ASI_destructor(struct List_ASI* this)
 {
     assert(this != NULL);

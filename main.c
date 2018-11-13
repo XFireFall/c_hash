@@ -6,21 +6,56 @@
 
 #define NUM_OF_HASHES (3)
 
+
+/** \brief Fills array with sizes of lists of hash tables, initialized by the given array of words and hash function
+ *
+ * \param dict_arr int** [in] - array of words (strings as arrays of integers)
+ * \param num_of_lines int [in] - number of words if the previous array
+ * \param hash_count int* [in] - array to put size of lists into
+ * \param hash int (*)(int*) [in] - pointer to the hash function (gets key as string as array of integers)
+ *
+ */
+void hash_comp_fill(int** dict_arr, int num_of_lines, int* hash_count);
+
+/** \brief Makes plots for each hash function and one for their comparison
+ *
+ * \param hash_comp[NUM_OF_HASHES][HASH_TABLE_SIZE] int [in] - all the array that were got from 'hash_comp_fill'
+ *
+ */
+void hash_comp_makeplot(int hash_comp[NUM_OF_HASHES][HASH_TABLE_SIZE]);
+
+
+/** \brief Hash function: ASCII-code of the first letter
+ *
+ * \param s int* - string (as array of integers) to calculate hash of
+ * \return int - hash value
+ *
+ */
 int hash_1(int* s)
 {
-    return ((int) *s) % HASH_TABLE_SIZE;
+    return *s % HASH_TABLE_SIZE;
 }
 
+/** \brief Hash function: sum of ASCII-codes of all letters
+ *
+ * \param s int* - string (as array of integers) to calculate hash of
+ * \return int - hash value
+ *
+ */
 int hash_2(int* s)
 {
     int sum = 0;
-    while(*s != '\0' && *s != ':')
-    {
-        sum += (int) *s++;
-    }
+    while(*s != (int) '\0' && *s != (int) ':')
+        sum += *s++;
     return sum % HASH_TABLE_SIZE;
 }
 
+/** \brief Hash function: sum of ASCII-codes of all letters divided by the string length
+ *
+ * \param s int* - string (as array of integers) to calculate hash of
+ * \return int - hash value
+ *
+ */
 int hash_3(int* s)
 {
     int sum = 0;
@@ -32,6 +67,53 @@ int hash_3(int* s)
     }
     return ((len) ? sum / len : sum) % HASH_TABLE_SIZE;
 }
+
+//*****************************************************************\\
+//*****************************************************************\\
+
+int main()
+{
+    char infilename[] = "dictfull.txt";
+
+    //*************************************************************
+
+    int num_of_lines = 0;
+
+    int* dictionary = fgetfile(infilename, &num_of_lines);
+    if(!dictionary)
+    {
+        printf(RED ALERT"FATAL ERROR"RESET);
+        return 1;
+    }
+
+    int** dict_arr = slicedtext(dictionary, num_of_lines);
+    if(!dict_arr)
+    {
+        printf(RED ALERT"FATAL ERROR"RESET);
+        DELETE(dictionary);
+        return 1;
+    }
+
+    //******************
+
+    int hash_comp[NUM_OF_HASHES][HASH_TABLE_SIZE] = {};
+
+    int (*hash_arr[NUM_OF_HASHES])(int*) = {hash_1, hash_3, hash_2};
+
+    for(int i = 0; i < NUM_OF_HASHES; ++i)
+        hash_comp_fill(dict_arr, num_of_lines, hash_comp[i], hash_arr[i]);
+
+    hash_comp_makeplot(hash_comp);
+
+    //******************
+
+    DELETE(dict_arr);
+    DELETE(dictionary);
+    return 0;
+}
+
+//*****************************************************************\\
+//*****************************************************************\\
 
 void hash_comp_fill(int** dict_arr, int num_of_lines, int* hash_count, int (*hash)(int*))
 {
@@ -94,43 +176,3 @@ void hash_comp_makeplot(int hash_comp[NUM_OF_HASHES][HASH_TABLE_SIZE])
     return;
 }
 
-int main()
-{
-    char infilename[] = "dictfull.txt";
-
-    //*************************************************************
-
-    int num_of_lines = 0;
-
-    int* dictionary = fgetfile(infilename, &num_of_lines);
-    if(!dictionary)
-    {
-        printf(RED ALERT"FATAL ERROR"RESET);
-        return 1;
-    }
-
-    int** dict_arr = slicedtext(dictionary, num_of_lines);
-    if(!dict_arr)
-    {
-        printf(RED ALERT"FATAL ERROR"RESET);
-        DELETE(dictionary);
-        return 1;
-    }
-
-    //******************
-
-    int hash_comp[NUM_OF_HASHES][HASH_TABLE_SIZE] = {};
-
-    int (*hash_arr[NUM_OF_HASHES])(int*) = {hash_1, hash_3, hash_2};
-
-    for(int i = 0; i < NUM_OF_HASHES; ++i)
-        hash_comp_fill(dict_arr, num_of_lines, hash_comp[i], hash_arr[i]);
-
-    hash_comp_makeplot(hash_comp);
-
-    //******************
-
-    DELETE(dict_arr);
-    DELETE(dictionary);
-    return 0;
-}
