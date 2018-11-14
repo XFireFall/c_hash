@@ -1,3 +1,7 @@
+/** \file "hash_table.h"
+ *
+ */
+
 #ifndef HASH_TABLE_H_INCLUDED
 #define HASH_TABLE_H_INCLUDED
 
@@ -27,6 +31,18 @@ struct Hash_table
 {
     struct List_ASI table[HASH_TABLE_SIZE];
 };
+
+
+//*****************************************************************
+
+/** \brief Checks if second string (array of integers) is a part of the first one from its beginning
+ *
+ * \param a int* [in] - first string
+ * \param b int* [in] - second string
+ * \return int - 0 if second string is a part of the first one
+ *
+ */
+int linesearch(int* a, int* b);
 
 
 //*****************************************************************

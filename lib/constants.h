@@ -1,3 +1,7 @@
+/** \file "constants.h"
+ *
+ */
+
 #ifndef CONSTANTS_H_INCLUDED
 #define CONSTANTS_H_INCLUDED
 
@@ -10,8 +14,8 @@
 #define UNDERLINE   "\033[4m"
 #define ALERT       "\033[5m"
 
-#define REDALERT    "\033[5m;31m"
+#define REDALERT    "\033[5;31m"   /**< Combination of red color and flashing style */
 
-#define MAX_STR_LEN    (1000) /**< Maximum of string length */
+#define MAX_STR_LEN    (1000)       /**< Maximum of string length */
 
 #endif // CONSTANTS_H_INCLUDED

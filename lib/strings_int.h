@@ -1,4 +1,5 @@
 /** \file strings_int.h
+ *
  */
 #ifndef STRINGS_INT_H_INCLUDED
 #define STRINGS_INT_H_INCLUDED

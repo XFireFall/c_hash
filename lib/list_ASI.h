@@ -1,3 +1,7 @@
+/** \file "list_ASI.h"
+ *
+ */
+
 #ifndef LIST_ASI_H_INCLUDED
 #define LIST_ASI_H_INCLUDED
 
@@ -27,6 +31,7 @@
  * \param ERR_DATA          - if for some reason data is NULL
  * \param ERR_INDEX         - having troubles with some item indexes (ex: prev < 0 or prev = next)
  * \param ERR_POISON        - if some item has value of POISON, which is actually abandoned from use
+ * \param ERR_FILE          - if called file does not exist
  *
  */
 enum {
@@ -39,7 +44,8 @@ enum {
     ERR_FREE,
     ERR_DATA,
     ERR_INDEX,
-    ERR_POISON
+    ERR_POISON,
+    ERR_FILE
     };
 
 /** \brief Item structure of list "List_ASI"
@@ -229,5 +235,14 @@ void List_ASI_constructor   (struct List_ASI* this, int number);
  */
 void List_ASI_destructor    (struct List_ASI* this);
 
+//==========================__FIND__============================
+/** \brief Finds first item with given name in the list
+ *
+ * \param this struct List_ASI* [in] - list to search in
+ * \param name int* [in] - name of the item to search
+ * \return int - 0 if there is no such item, else - index according to the memory set
+ *
+ */
+int List_ASI_find(struct List_ASI* this, int* name);
 
 #endif // LIST_ASI_H_INCLUDED

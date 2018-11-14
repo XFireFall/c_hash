@@ -23,6 +23,10 @@ int expand_data(struct List_ASI* this)
     this->data = (struct List_ASI_item*) realloc(this->data, this->capacity * 2 * sizeof(struct List_ASI_item));
     int i = this->capacity;
     this->capacity *= 2;
+
+    if(this->data == NULL)
+        return ERR_DATA;
+
     for( ; i < this->capacity; ++i)
     {
         *this->data[i].name = POISON;
@@ -60,7 +64,7 @@ int List_ASI_OK(struct List_ASI* this)
 
     for(int i = 1; i < this->capacity; ++i)
     {
-        if(*this->data[i].name != POISON && (this->data[i].prev == this->data[i].next || this->data[i].prev < 0 || this->data[i].prev > this->size || this->data[i].next < 0 || this->data[i].prev > this->size))
+        if(*this->data[i].name != POISON && ((this->data[i].prev != 0 && this->data[i].prev == this->data[i].next) || this->data[i].prev < 0 || this->data[i].prev > this->size || this->data[i].next < 0 || this->data[i].prev > this->size))
             return ERR_INDEX;
 
         if(this->data[i].prev != POISON && *this->data[i].name == POISON)
@@ -80,6 +84,13 @@ int List_ASI_dump_file(struct List_ASI* this)
     char dumpfilename[MAX_STR_LEN] = "";
     sprintf(dumpfilename, "dumps/list_ASI_dump_%d.txt", this->ID);
     FILE* dumpfile = fopen(dumpfilename, "aw");
+
+    if(dumpfile == NULL)
+    {
+        printf(RED"\tFOLDER 'dumps' DOES NOT EXIST IN THE 'main.c' DIRECTORY\n"RESET);
+        return ERR_FILE;
+    }
+
     #define DUMP_TAB_LN( var ) (fprintf(dumpfile, "\t%s = %d\n", strchr(#var, '>') + 1, var))
 
     fprintf(dumpfile, "List_ASI #%d dump:\n"
@@ -301,6 +312,12 @@ int List_ASI_makegraph(struct List_ASI* this)
     char outfilename[MAX_STR_LEN] = "";
     sprintf(outfilename, "graphs/list_ASI_graph_%d.dot", this->ID);
     FILE* outfile = fopen(outfilename, "w");
+
+    if(outfile == NULL)
+    {
+        printf(RED"\tFOLDER 'graphs' DOES NOT EXIST IN THE 'main.c' DIRECTORY\n"RESET);
+        return ERR_FILE;
+    }
 
     fprintf(outfile, "digraph list_ASI_graph_%d\n"
                       "{\n"
@@ -570,7 +587,8 @@ void List_ASI_constructor(struct List_ASI* this, int number)
     char dumpfilename[MAX_STR_LEN] = "";
     sprintf(dumpfilename, "dumps/list_ASI_dump_%d.txt", number);
     FILE* dumpfile = fopen(dumpfilename, "w");
-    fclose(dumpfile);
+    if(dumpfile != NULL)
+        fclose(dumpfile);
 
     this->ID = number;
     this->size = 0;
@@ -602,3 +620,12 @@ void List_ASI_destructor(struct List_ASI* this)
     return;
 }
 
+//==========================__FIND__============================
+int List_ASI_find(struct List_ASI* this, int* name)
+{
+    int i = this->head;
+    for( ; i != 0; i = this->data[i].next)
+        if(!linecomp(this->data[i].name, name))
+            break;
+    return i;
+}

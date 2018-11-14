@@ -1,5 +1,22 @@
 #include "hash_table.h"
 
+
+int linesearch(int* a, int* b)
+{
+    assert(a != b);
+
+    assert(a != NULL);
+    assert(b != NULL);
+
+    for( ; *b != 0; a++, b++)
+        if(*b != *a)
+            return *a - *b;
+    return 0;
+}
+
+//*****************************************************************
+
+
 //==========================__OK__==============================
 int Hash_table_OK(struct Hash_table* this)
 {
