@@ -39,10 +39,10 @@ int Hash_table_dump(struct Hash_table* this)
 //*****************************************************************
 
 //==========================__INIT__============================
-int Hash_table_init(struct Hash_table* this, int** dict_arr, int num_of_lines, int (*hash)(int*))
+int Hash_table_set(struct Hash_table* this, int** dict_arr, int num_of_lines, int (*hash)(int*))
 {
     for(int i = 0; i < num_of_lines; i++)
-        if(List_ASI_add_sorted(&this->table[hash(dict_arr[i])], dict_arr[i]))
+        if(List_ASI_add_sorted(&this->table[hash(dict_arr[i]) % HASH_TABLE_SIZE], dict_arr[i]))
             return ERR_LIST;
     return OK;
 }

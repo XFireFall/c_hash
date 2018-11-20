@@ -25,11 +25,11 @@ int istext(int n);
 //==========================__PRINTLINE__=======================
 /** \brief Prints string (as integer array)
  *
- * \param line int* [in] - string (as integer array) to print; must end with ((int) '\0')
+ * \param line const int* [in] - string (as integer array) to print; must end with ((int) '\0')
  * \return (1) if string not found, (0) if OK
  *
  */
-int printline(int* line);
+int printline(const int* line);
 
 //==========================__PRINTTEXT__=======================
 /** \brief Prints given number of strings (as integer arrays) from array - a string in a line
@@ -85,7 +85,7 @@ int** slicedtext(int* text, int num_of_lines);
  *
  * \note Ignores non-text symbols
  */
-int linecomp(int* a, int* b);
+int linecomp(const int* a, const int* b);
 
 //==========================__REV_LINE_COMP__===================
 /** \brief Compares strings (as integer arrays) from their ending

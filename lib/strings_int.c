@@ -4,6 +4,8 @@
 // Checks if given code of a symbol is a letter of English or Russian alphabet
 int istext(int n)
 {
+    //return 1;
+
     if(n > (int) 'z')
         return 2;
     else
@@ -12,7 +14,7 @@ int istext(int n)
 
 //==========================__PRINTLINE__=======================
 // Prints string (as integer array)
-int printline(int* line)
+int printline(const int* line)
 {
     assert(line != NULL);
 
@@ -134,7 +136,7 @@ int** slicedtext(int* text, int num_of_lines)
 //==========================__LINE_COMP__=======================
 // Compares strings (as integer arrays) from their beginning
 // Ignores non-text symbols
-int linecomp(int* a, int* b)
+int linecomp(const int* a, const int* b)
 {
     assert(a != b);
 

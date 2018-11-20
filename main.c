@@ -8,8 +8,8 @@
 
 #include "lib/hash_table.h"
 
-#define NUM_OF_HASHES (3)
-
+#define NUM_OF_HASHES (5)
+#define EXIT ("<==")
 
 //==========================__FILL__============================
 /** \brief Fills array with sizes of lists of hash tables, initialized by the given array of words and hash function
@@ -61,8 +61,38 @@ int hash_3(int* s);
 //*****************************************************************
 //*****************************************************************
 //==========================__MAIN__===============================
+
+int hash_4(int* s)
+{
+    assert(s);
+
+    int sum = 0;
+    int p = 0;
+    while(*s != '\0' && *s != ':')
+    {
+        s++;
+        p = *s ^ *(s - 1);
+        sum = sum + p;
+        sum = sum << 1 ^ sum >> 31;
+    }
+    return sum;
+}
+
+int hash_5(int* s)
+{
+    assert(s);
+
+    int sum = 0;
+    while(*s != '\0' && *s != ':')
+        sum = (sum << 5) + (sum >> 27) + *s++;
+    return abs(sum);
+}
+
 //*****************************************************************
 //*****************************************************************
+
+void PRINTB( int var ) {while(var > 0) {printf("%d",var % 2); var /= 2;} printf("\n");}
+
 
 int main()
 {
@@ -91,7 +121,7 @@ int main()
 
     int hash_comp[NUM_OF_HASHES][HASH_TABLE_SIZE] = {};
 
-    int (*hash_arr[NUM_OF_HASHES])(int*) = {hash_1, hash_3, hash_2};
+    int (*hash_arr[NUM_OF_HASHES])(int*) = {hash_1, hash_2, hash_3, hash_4, hash_5};
 
     for(int i = 0; i < NUM_OF_HASHES; ++i)
         hash_comp_fill(dict_arr, num_of_lines, hash_comp[i], hash_arr[i]);
@@ -103,7 +133,7 @@ int main()
     struct Hash_table hsh_tbl = {};
     Hash_table_constructor(&hsh_tbl);
 
-    if(Hash_table_init(&hsh_tbl, dict_arr, num_of_lines, hash_2))
+    if(Hash_table_set(&hsh_tbl, dict_arr, num_of_lines, hash_2))
     {
         printf("["RED"FAILED"RESET"]\n");
         Hash_table_destructor(&hsh_tbl);
@@ -114,16 +144,19 @@ int main()
     int iword[MAX_STR_LEN] = {};
     while(1)
     {
-        printf("Write a word to search:\n==>\t"BLUE);
+        printf("Write a word to search (print %s to exit):\n==>\t"BLUE, EXIT);
         scanf("%s", word);
         printf(RESET);
+
+        if(!strcmp(word, EXIT))
+            break;
 
         int k = 0;
         for( ; word[k] != '\0'; ++k)
             iword[k] = (int) word[k];
         iword[k] = 0;
 
-        int key = hash_2(iword);
+        int key = hash_2(iword) % HASH_TABLE_SIZE;
 
         for(int i = hsh_tbl.table[key].head; i != 0; i = hsh_tbl.table[key].data[i].next)
             if(!linesearch(hsh_tbl.table[key].data[i].name, iword))
@@ -131,9 +164,7 @@ int main()
                 printline(hsh_tbl.table[key].data[i].name);
                 break;
             }
-
-
-        break;
+        printf("\n");
     }
     Hash_table_dump(&hsh_tbl);
 
@@ -152,29 +183,35 @@ int main()
 //==========================__HASH_DED__========================
 int hash_1(int* s)
 {
-    return *s % HASH_TABLE_SIZE;
+    assert(s);
+
+    return *s;
 }
 
 //==========================__HASH_SUM__========================
 int hash_2(int* s)
 {
+    assert(s);
+
     int sum = 0;
     while(*s != (int) '\0' && *s != (int) ':')
         sum += *s++;
-    return sum % HASH_TABLE_SIZE;
+    return sum;
 }
 
 //==========================__HASH_UNIT_CODE__==================
 int hash_3(int* s)
 {
+    assert(s);
+
     int sum = 0;
     int len = 0;
     while(*s != '\0' && *s != ':')
     {
-        sum += (int) *s++;
+        sum += *s++;
         len++;
     }
-    return ((len) ? sum / len : sum) % HASH_TABLE_SIZE;
+    return (len) ? sum / len : sum;
 }
 
 //*****************************************************************
@@ -192,7 +229,7 @@ void hash_comp_fill(int** dict_arr, int num_of_lines, int* hash_count, int (*has
     struct Hash_table hsh_tbl = {};
     Hash_table_constructor(&hsh_tbl);
 
-    if(Hash_table_init(&hsh_tbl, dict_arr, num_of_lines, hash))
+    if(Hash_table_set(&hsh_tbl, dict_arr, num_of_lines, hash))
     {
         printf("["RED"FAILED"RESET"]\n");
         Hash_table_destructor(&hsh_tbl);

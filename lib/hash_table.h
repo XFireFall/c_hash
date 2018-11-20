@@ -9,7 +9,7 @@
 #include "constants.h"
 #include "list_ASI.h"
 
-#define HASH_TABLE_SIZE (256)
+#define HASH_TABLE_SIZE (10000)
 
 
 /** \brief Constant values for error cases
@@ -78,7 +78,7 @@ int Hash_table_dump(struct Hash_table* this);
  * \return int - result of hash table verification
  *
  */
-int Hash_table_init(struct Hash_table* this, int** dict_arr, int num_of_lines, int (*hash)(int*));
+int Hash_table_set(struct Hash_table* this, int** dict_arr, int num_of_lines, int (*hash)(int*));
 
 
 //*****************************************************************
